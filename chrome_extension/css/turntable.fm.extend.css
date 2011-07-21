@@ -95,3 +95,6 @@
 .tt-ext-song-tags span { color:#333; text-align: left; text-shadow: none;}
 
 .text-link { color: #2E9AEB; cursor: pointer; }
+
+#room-info-tab .tt-ext-moderator-info {padding: 10px 5px 5px 5px;width: 170px;white-space: nowrap;overflow: hidden;}
+#room-info-tab .tt-ext-moderator-info span {padding-left:4px}

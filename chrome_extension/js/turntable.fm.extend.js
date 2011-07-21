@@ -525,7 +525,7 @@ $(document).ready(function() {
 					$("#menuh .menuItem:eq(" + pos + ")").after(util.buildTree(tree))
 				}
 			});
-			
+
 			$('#tt-ext-mpd')[0].addEventListener('tt-ext-process-similar-songs',function () {
 				//var similarSongs = $('body').data('similarSongs')
 				var allSimilarSongs = JSON.parse($('body').attr('tt-ext-similar-songs'))
@@ -579,6 +579,29 @@ $(document).ready(function() {
 					}
 
 			});
+		}
+
+		//add moderator
+		var moderatorInfo = $('#room-info-tab .tt-ext-moderator-info')
+		var placeholder = $('#room-info-tab .infowrap')
+
+		if (TFMEX.roomInfo.users[TFMEX.roomInfo.moderatorId]) {
+			if (placeholder.length > 0 && moderatorInfo.length == 0) {
+				try {
+					moderatorInfo = $('<div class="tt-ext-moderator-info tt-ext-room-dropdown-addition"><b>Moderator:</b><span>Unavailable</span></div>').appendTo(placeholder)
+					var contentWrapper = $('#room-info-tab .content')
+					contentWrapper.css("top",(parseInt(contentWrapper.css("top").replace("px",'')) - 28) + "px")
+				} catch(ex) {
+					log.warn("Received error while adding content to room drop-down, undoing.")
+					$('.tt-ext-room-dropdown-addition').remove()
+				}
+			}
+			moderatorInfo.find('span').text(TFMEX.roomInfo.users[TFMEX.roomInfo.moderatorId].name)
+		}
+
+//		debugger;
+		if (TFMEX.roomInfo.users[TFMEX.roomInfo.moderatorId]) {
+
 		}
 
 		$("*").undelegate(".TFMEX")
@@ -683,9 +706,7 @@ $(document).ready(function() {
 			TFMEX.removeTagFromSong(tag, songId);
 			$tagWrapper.remove();
 			return false;
-		});
-		
-		
+		});				
 		
 		$('#playlist').delegate('.tag', 'click.TFMEX', function() {
 			var containers = {},
@@ -1357,7 +1378,9 @@ $(document).ready(function() {
 	                        }
 	                    } catch(e) { console.error("Exception occurred during showVote",e.stack); }
 	                case "update_user":
+						break;
 	                case "new_moderator":
+						//TODO: Update moderator
 	                default:
 	            }
 	        } else {
